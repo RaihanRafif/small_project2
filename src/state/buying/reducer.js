@@ -10,7 +10,9 @@ import delapan from "../../img/fotoproduct/8.jpg";
 
 const initialState = {
   counter: 0,
-  item: [],
+  item: [
+    { foto: satu, content: "Kemeja Pria / satu ", desc: "satu", id: 1, qty: 1 },
+  ],
   index: 0,
   stockitem: [
     {
@@ -116,7 +118,17 @@ const StoreOption = (state = initialState, action) => {
     case "GO_ITEM":
       return {
         ...state,
-        slide_item: state.slide_item + action.value,
+        // index: state.index
+      };
+    case "PLUS_ITEM":
+      // function maIndex(indexItem) {
+      //   return indexItem === action.value;
+      // }
+      // const index = state.item.findIndex(maIndex);
+      // console.log(index);
+      return {
+        ...state,
+        item:state.item[1].qty+1
       };
     default:
       return state;

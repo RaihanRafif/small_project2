@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "-1px",
   },
 }));
-const Cart = ({ dataitem, kurangitem, nambahitem }) => {
+const Cart = ({ dataitem, tambah_qty }) => {
   const classes = useStyles();
   const [state, setState] = React.useState({
     age: "",
@@ -30,12 +30,34 @@ const Cart = ({ dataitem, kurangitem, nambahitem }) => {
       [name]: event.target.value,
     });
   };
+  const total = () => {
+    var totalItem = 0;
+    var i=0;
+    for (i; i < dataitem.length; i++) {
+      totalItem += dataitem[i].qty;
+      console.log(totalItem)
+    }
+    return totalItem;
+    
+  };
   return (
     <div className="cart">
       <Row className="navbarku">
-      <Button style={{height:'40px',width:'100px',marginLeft:'210px',marginTop:'25px',fontSize:'20px'}} as={Link} to={{ pathname: "/item-menu" }} size='sm' variant="primary">
-              Back
-            </Button>
+        <Button
+          style={{
+            height: "40px",
+            width: "100px",
+            marginLeft: "210px",
+            marginTop: "25px",
+            fontSize: "20px",
+          }}
+          as={Link}
+          to={{ pathname: "/item-menu" }}
+          size="sm"
+          variant="primary"
+        >
+          Back
+        </Button>
         <Navbarku />
       </Row>
       <Row className="cart-item">
@@ -44,8 +66,8 @@ const Cart = ({ dataitem, kurangitem, nambahitem }) => {
             <h1>KERANJANG</h1>
           </div>
           <div className="list-keranjang">
-            {dataitem.map((val) => (
-              <div className="item-buying">
+            {dataitem.map((val, index) => (
+              <div className="item-buying" key={index}>
                 <Row>
                   <Col>
                     <img src={val.foto}></img>
@@ -56,6 +78,18 @@ const Cart = ({ dataitem, kurangitem, nambahitem }) => {
                     </Row>
                     <Row>
                       <h3>${val.harga}</h3>
+                    </Row>
+                    <Row className="row-btn-plsmns">
+                      <button className="btn-plsmns">-</button>
+                      <p style={{ marginLeft: "5px", marginRight: "5px" }}>
+                        {val.value}
+                      </p>
+                      <button
+                        className="btn-plsmns"
+                        onClick={() => tambah_qty()}
+                      >
+                        +
+                      </button>
                     </Row>
                   </Col>
                 </Row>
@@ -68,7 +102,7 @@ const Cart = ({ dataitem, kurangitem, nambahitem }) => {
           <h2>Ringkasan belanja</h2>
           <div className="ringkasan-belanja">
             <p>
-              TOTAL BARANG : <b>{dataitem.length}</b>
+              TOTAL BARANG : <b>{total()}</b>
             </p>
           </div>
           <div className="harga-bayar">
@@ -124,9 +158,9 @@ const mapDispatchToProps = (dispatch) => {
         type: "ADD_ITEM",
         value,
       }),
-    kurangItem: (value) =>
+    tambah_qty: (value) =>
       dispatch({
-        type: "MIN_ITEM",
+        type: "PLUS_ITEM",
         value,
       }),
   };

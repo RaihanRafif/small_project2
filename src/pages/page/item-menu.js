@@ -7,16 +7,8 @@ import Footer from "../../component/Footer";
 import Select from "react-select";
 import { connect } from "react-redux";
 
-const ItemMenu = ({
-  slide_item,
-  stockitem,
-  dataitem,
-  tambahItem,
-  nextItem,
-  prevItem,
-}) => {
+const ItemMenu = ({ stockitem, dataitem, tambahItem, index }) => {
   const [itemsize, setItemSize] = useState("");
-  const [index, setIndex] = useState(0);
   const harga_diskon =
     stockitem[index].harga -
     (stockitem[index].harga * stockitem[index].diskon) / 100;
@@ -27,49 +19,35 @@ const ItemMenu = ({
       content: stockitem[index].content,
       harga: harga_diskon,
       foto: stockitem[index].foto,
+      value:0,
+      id: stockitem[index].id
     };
-    if (isLogin == "true") {
-      tambahItem(itemBuying);
+    if (itemsize === ("")) {
+      alert("Pilih size dulu gais");
     } else {
-      alert("Login Dulu Bro");
+      if (isLogin == "true") {
+        tambahItem(itemBuying);
+      } else {
+        alert("Login Dulu Bro");
+      }
     }
   }
-  console.log(dataitem);
   const next = () => {
     if (index === stockitem.length - 1) {
-      setIndex(0);
+      index = 0;
     } else {
-      setIndex(index + 1);
+      index = index + 1;
     }
   };
 
   const prev = () => {
     if (index === 0) {
-      setIndex(stockitem.length - 1);
+      index = stockitem.length - 1;
     } else {
-      setIndex(index - 1);
+      index = index - 1;
     }
   };
 
-  // function item_menu() {
-  //   show(slide_item);
-  // }
-
-  // function scrl_item(n) {
-  //   show((slide_item += n));
-  // }
-
-  // function show(n) {
-  //   var i;
-  //   var x = stockitem.length - 1;
-  //   if (n > x) {
-  //     slide_item = 0;
-  //   }
-  //   if (n < 0) {
-  //     slide_item = x;
-  //   }
-
-  // }
   const data = [
     {
       value: "sm",
@@ -91,6 +69,7 @@ const ItemMenu = ({
   const handleChange = (e) => {
     setItemSize(e.value);
   };
+  console.log(stockitem.filter)
   return (
     <Container fluid className="item-menu">
       <Row>
@@ -189,7 +168,7 @@ const mapStateToProps = (props) => {
   return {
     dataitem: props.akunlogin.item,
     stockitem: props.akunlogin.stockitem,
-    slide_item: props.akunlogin.slide_item,
+    index: props.akunlogin.index,
   };
 };
 

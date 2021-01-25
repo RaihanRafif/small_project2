@@ -19,7 +19,7 @@ import {
 import { Link } from "react-router-dom";
 import useRouter from "use-react-router";
 
-const ItemStore = ({ stockitem, slide_item, gotoItem }) => {
+const ItemStore = ({ stockitem,toDetail, slide_item, gotoItem }) => {
   const { history } = useRouter();
   const input = 1;
   return (
@@ -71,93 +71,19 @@ const ItemStore = ({ stockitem, slide_item, gotoItem }) => {
           </nav>
         </div>
         <div className="item_catalog">
-          <div className="category">
-            <Nav.Link as={Link} to={{ pathname: "/item-menu" }}>
+          {stockitem.map((val, index) => (
+            <Link to="/item-menu">
               <div
+                key={index}
                 className="item_category"
-                style={{ backgroundImage: `url(${stockitem[0].foto})` }}
+                style={{ backgroundImage: `url(${val.foto})` }}
+                onClick={() => toDetail(val.id)}
               >
                 <h4>TITLE HERE</h4>
                 <p>category</p>
               </div>
-            </Nav.Link>
-            <Nav.Link as={Link} to={{ pathname: "/item-menu" }}>
-              <div
-                className="item_category"
-                style={{ backgroundImage: `url(${stockitem[1].foto})` }}
-              >
-                <h4>TITLE HERE</h4>
-                <p>category</p>
-              </div>
-            </Nav.Link>
-            <Nav.Link as={Link} to={{ pathname: "/item-menu" }}>
-              <div
-                className="item_category"
-                style={{ backgroundImage: `url(${stockitem[2].foto})` }}
-              >
-                <h4>TITLE HERE</h4>
-                <p>category</p>
-              </div>
-            </Nav.Link>
-          </div>
-          <div className="category">
-            <Nav.Link as={Link} to={{ pathname: "/item-menu" }}>
-              <div
-                className="item_category"
-                style={{ backgroundImage: `url(${stockitem[3].foto})` }}
-              >
-                <h4>TITLE HERE</h4>
-                <p>category</p>
-              </div>
-            </Nav.Link>
-            <Nav.Link as={Link} to={{ pathname: "/item-menu" }}>
-              <div
-                className="item_category"
-                style={{ backgroundImage: `url(${stockitem[4].foto})` }}
-              >
-                <h4>TITLE HERE</h4>
-                <p>category</p>
-              </div>
-            </Nav.Link>
-            <Nav.Link as={Link} to={{ pathname: "/item-menu" }}>
-              <div
-                className="item_category"
-                style={{ backgroundImage: `url(${stockitem[5].foto})` }}
-              >
-                <h4>TITLE HERE</h4>
-                <p>category</p>
-              </div>
-            </Nav.Link>
-          </div>
-          <div className="category">
-            <Nav.Link as={Link} to={{ pathname: "/item-menu" }}>
-              <div
-                className="item_category"
-                style={{ backgroundImage: `url(${stockitem[6].foto})` }}
-              >
-                <h4>TITLE HERE</h4>
-                <p>category</p>
-              </div>
-            </Nav.Link>
-            <Nav.Link as={Link} to={{ pathname: "/item-menu" }} >
-              <div
-                className="item_category"
-                style={{ backgroundImage: `url(${stockitem[7].foto})` }}
-              >
-                <h4>TITLE HERE</h4>
-                <p>category</p>
-              </div>
-            </Nav.Link>
-            <Nav.Link as={Link} to={{ pathname: "/item-menu" }}>
-              <div
-                className="item_category"
-                style={{ backgroundImage: `url(${stockitem[8].foto})` }}
-              >
-                <h4>TITLE HERE</h4>
-                <p>category</p>
-              </div>
-            </Nav.Link>
-          </div>
+            </Link>
+          ))}
         </div>
         <div className="item_filter">
           <nav aria-label=" Page navigation example">
@@ -264,6 +190,11 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: "GO_ITEM",
         value,
+      }),
+    toDetail: (id) =>
+      dispatch({
+        type: "GO_ITEM",
+        value: id,
       }),
   };
 };
